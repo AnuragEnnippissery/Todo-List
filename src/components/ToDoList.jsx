@@ -1,8 +1,8 @@
 import ToDoItem from "./ToDoItem";
 import { useEffect, useState } from "react";
-function TodoList({listData}){
+function TodoList(props){
     //console.log("todo list ",props.item)
-    //const[listData,setListData]=useState([pro]);
+    //const[listData,setListData]=useState(props.list);
     // useEffect(()=>{
     // //   setListData([
     // // {
@@ -24,32 +24,20 @@ function TodoList({listData}){
     // setFinalText(updatedList);
     // };
 
-    const handleMark = (id) => {
-    const updatedList = listData.map((todo) =>
-      todo.id === id ? { ...todo, marked: !todo.marked } : todo
-    );
-    setListData(updatedList);
-    };
-
-    const handleEdit = (id, newText) => {
-    const updatedList = listData.map((todo) =>
-      todo.id === id ? { ...todo, text: newText } : todo
-    );
-    setListData(updatedList);
-  };
+    
     return(
         <>
         {/* <ToDoItem data={props.item}/> */}
         <div>
             <ul>
-                {listData?.map((elem)=>{
+                {props?.list?.map((elem)=>{
                 return (
                 <>
                 { <li>
-                    <ToDoItem data={elem} 
-                    onDelete={() => handleDelete(elem.id)}
-                    onMark={() => handleMark(elem.id)}
-                    onEdit={(newText) => handleEdit(elem.id, newText)}
+                    <ToDoItem data={elem} key={elem.id}
+                    onDelete={() => props.onDelete(elem.id)}
+                    onMark={() => props.onMark(elem.id)}
+                    onEdit={(newText) => props.onEdit(elem.id, newText)}
                     /></li>
                    }
                 </>

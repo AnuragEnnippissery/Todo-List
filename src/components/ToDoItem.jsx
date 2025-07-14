@@ -1,25 +1,40 @@
 import { useState } from "react";
-import "./style.css"
+import "./style.css";
 
-function ToDoItem(props){
-    console.log("item",props.data)
-    //console.log("props",props)
-    const { data, onDelete, onMark, onEdit } = props;
-    //const[data,setData]=useState("")
-    //setData(props)
-    //console.log(data)
-    function HandleMark(){
-        console.log("marked")
+function ToDoItem({ data, onDelete, onMark, onEdit }) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [editText, setEditText] = useState(data.text);
+
+  const handleSave = () => {
+    if (editText.trim()) {
+      onEdit(editText);
+      setIsEditing(false);
     }
-    return(
+  };
+
+  return (
+    <div className="list-item">
+      {isEditing ? (
         <>
-        <div className="list-item">
-           {props.data.text }
-           <button onClick={HandleMark}>mark</button>
-           <button>edit</button>
-           <button onClick={onDelete} >delete</button>
-        </div>
+          <input
+            value={editText}
+            onChange={(e) => setEditText(e.target.value)}
+          />
+          <button onClick={handleSave}>Save</button>
+          <button onClick={() => setIsEditing(false)}>Cancel</button>
         </>
-    )
+      ) : (
+        <>
+          <span style={{ textDecoration: data.marked ? "line-through" : "none" }}>
+            {data.text}
+          </span>
+          <button onClick={onMark}>Mark</button>
+          <button onClick={() => setIsEditing(true)}>Edit</button>
+          <button onClick={onDelete}>Delete</button>
+        </>
+      )}
+    </div>
+  );
 }
+
 export default ToDoItem;

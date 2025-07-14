@@ -21,9 +21,23 @@ function Header(){
           console.log("input data",finaltext)
     }
     function handleDelete(id) {
-    setFinalText(
-       finaltext.filter((todo) => todo.id !== id)
-    );
+    setFinalText(finaltext.filter((todo) => todo.id !== id));
+    }
+
+    function handleMark(id) {
+        setFinalText(
+        finaltext.map((todo) =>
+            todo.id === id ? { ...todo, marked: !todo.marked } : todo
+        )
+        );
+    }
+
+        function handleEdit(id, newText) {
+        setFinalText(
+        finaltext.map((todo) =>
+            todo.id === id ? { ...todo, text: newText } : todo
+        )
+        );
     }
 
     
@@ -36,8 +50,12 @@ function Header(){
                 <button onClick={handleClick}>Add</button>
                 
             </div>
-            <TodoList listData={finaltext}/>
-            <TodoList item={finaltext} onEdit={handleDelete} />
+            <TodoList list={finaltext}
+             onDelete={handleDelete}
+            onMark={handleMark}
+            onEdit={handleEdit}
+            />
+            {/* <TodoList item={finaltext} onEdit={handleDelete} /> */}
         </>
         
     )
